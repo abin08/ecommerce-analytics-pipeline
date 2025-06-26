@@ -31,7 +31,14 @@ agg_pd["last_purchase_date"] = pd.to_datetime(agg_pd["last_purchase_date"])
 # Calculate the number of days since the last purchase for each customer-product pair.
 # Subtract the last_purchase date from the current timestamp to get a timedelta,
 # then extract the number of days as an integer using .dt.days.
+"""
+# Use the below line for real time calculation which uses 
+# current timestamp instead of reference date
 agg_pd["recency_days"] = (pd.Timestamp.now() - agg_pd["last_purchase_date"]).dt.days
+"""
+# since the data is too old, I am taking max of last_purchase_date as reference date
+reference_date = agg_pd["last_purchase_date"].max()
+agg_pd["recency_days"] = (reference_date - agg_pd["last_purchase_date"]).dt.days
 print(agg_pd.head())
 
 
